@@ -1,0 +1,112 @@
+﻿<UserControl x:Class="SpectrumAnalysis.Module.View.Main.MainView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:xcad="http://schemas.xceed.com/wpf/xaml/avalondock"
+             xmlns:d3="http://research.microsoft.com/DynamicDataDisplay/1.0"
+             mc:Ignorable="d">
+
+    <xcad:DockingManager AllowMixedOrientation="True" BorderBrush="Black" BorderThickness="1" Theme="{Binding Theme}"
+                         DocumentClosing="OnDocumentClosing">
+        <xcad:LayoutRoot>
+            <xcad:LayoutPanel Orientation="Horizontal">
+                <xcad:LayoutDocumentPaneGroup>
+
+                    <xcad:LayoutDocumentPane DockWidth="*" DockMinWidth="150">
+                        <xcad:LayoutDocument ContentId="Parameters" Title="Parameters">
+                            <StackPanel>
+                                <CheckBox IsChecked="{Binding EnableQuickViewPeaks, Mode=TwoWay}">Quick analysis</CheckBox>
+                                <Separator Margin="5" />
+                                <TextBlock Text="{Binding NumberOfDetectedPeaksDescription}" />
+                                <Slider Minimum="1" Maximum="10" SmallChange="1"
+                                        Value="{Binding NumberOfDetectedPeaks, Mode=TwoWay}" />
+                                <Separator Margin="5"/>
+
+                                <Label>Filter distance [MHz]</Label>
+                                <TextBox Margin="0,0,0,5" Text="{Binding MaxDistance, Mode=TwoWay}" TextAlignment="Center" PreviewTextInput="TextBoxValuePreviewTextInput" DataObject.Pasting="TextBoxValuePasting"/>
+                                <Button Content="Analyze Main Peak" Command="{Binding AnalyzeMainPeak}" IsEnabled="{Binding AnalyzeMainPeakAvailable}" />
+                                <ProgressBar HorizontalAlignment="Stretch" Height="15" Margin="0,5,0,0" Value="{Binding MainPeakAnalysisPercent}" />
+                                <Separator Margin="5" />
+                                <Button Content="Process Spectrum" Command="{Binding ProcessPeaks}" IsEnabled="{Binding AnalyzeAllPeaksAvailable}" />
+                                <ProgressBar HorizontalAlignment="Stretch" Height="15" Margin="0,5,0,0" Value="{Binding AllPeaksAnalysisPercent}" />
+                                <Separator Margin="5" />
+                                <Border BorderThickness="1" BorderBrush="Gray">
+                                    <StackPanel>
+                                        <StackPanel Margin="2" Orientation="Horizontal" VerticalAlignment="Center">
+                                            <Rectangle Width="15" Height="15" Fill="Red" VerticalAlignment="Center"/>
+                                            <TextBlock Margin="5,0,0,0" VerticalAlignment="Center">Main Peak</TextBlock>
+                                        </StackPanel>
+                                        <StackPanel Margin="2" Orientation="Horizontal" VerticalAlignment="Center">
+                                            <Rectangle Width="15" Height="15" Fill="Blue" VerticalAlignment="Center"/>
+                                            <TextBlock Margin="5,0,0,0" VerticalAlignment="Center">Peak 1</TextBlock>
+                                        </StackPanel>
+                                        <StackPanel Margin="2" Orientation="Horizontal" VerticalAlignment="Center">
+                                            <Rectangle Width="15" Height="15" Fill="DarkOrange" VerticalAlignment="Center"/>
+                                            <TextBlock Margin="5,0,0,0" VerticalAlignment="Center">Peak 2</TextBlock>
+                                        </StackPanel>
+                                        <StackPanel Margin="2" Orientation="Horizontal" VerticalAlignment="Center">
+                                            <Rectangle Width="15" Height="15" Fill="BlueViolet" VerticalAlignment="Center"/>
+                                            <TextBlock Margin="5,0,0,0" VerticalAlignment="Center">Peak 3</TextBlock>
+                                        </StackPanel>
+                                        <StackPanel Margin="2" Orientation="Horizontal" VerticalAlignment="Center">
+                                            <Rectangle Width="15" Height="15" Fill="Black" VerticalAlignment="Center"/>
+                                            <TextBlock Margin="5,0,0,0" VerticalAlignment="Center">Peak 4</TextBlock>
+                                        </StackPanel>
+                                        <StackPanel Margin="2" Orientation="Horizontal" VerticalAlignment="Center">
+                                            <Rectangle Width="15" Height="15" Fill="SaddleBrown" VerticalAlignment="Center"/>
+                                            <TextBlock Margin="5,0,0,0" VerticalAlignment="Center">Peak 5</TextBlock>
+                                        </StackPanel>
+                                        <StackPanel Margin="2" Orientation="Horizontal" VerticalAlignment="Center">
+                                            <Rectangle Width="15" Height="15" Fill="CadetBlue" VerticalAlignment="Center"/>
+                                            <TextBlock Margin="5,0,0,0" VerticalAlignment="Center">Peak 6</TextBlock>
+                                        </StackPanel>
+                                        <StackPanel Margin="2" Orientation="Horizontal" VerticalAlignment="Center">
+                                            <Rectangle Width="15" Height="15" Fill="Magenta" VerticalAlignment="Center"/>
+                                            <TextBlock Margin="5,0,0,0" VerticalAlignment="Center">Peak 7</TextBlock>
+                                        </StackPanel>
+                                        <StackPanel Margin="2" Orientation="Horizontal" VerticalAlignment="Center">
+                                            <Rectangle Width="15" Height="15" Fill="Chartreuse" VerticalAlignment="Center"/>
+                                            <TextBlock Margin="5,0,0,0" VerticalAlignment="Center">Peak 8</TextBlock>
+                                        </StackPanel>
+                                        <StackPanel Margin="2" Orientation="Horizontal" VerticalAlignment="Center">
+                                            <Rectangle Width="15" Height="15" Fill="Aqua" VerticalAlignment="Center"/>
+                                            <TextBlock Margin="5,0,0,0" VerticalAlignment="Center">Peak 9</TextBlock>
+                                        </StackPanel>
+                                    </StackPanel>
+
+                                </Border>
+                            </StackPanel>
+                        </xcad:LayoutDocument>
+                    </xcad:LayoutDocumentPane>
+
+                    <xcad:LayoutDocumentPane DockWidth="4*">
+                        <xcad:LayoutDocument ContentId="Data" Title="Quick View">
+                            <d3:ChartPlotter x:Name="SpectrumQuickView" />
+                        </xcad:LayoutDocument>
+                        <xcad:LayoutDocument ContentId="SpectrumAnalysis" Title="Analysis">
+                            <d3:ChartPlotter x:Name="SpectrumAnalysis" />
+                        </xcad:LayoutDocument>
+                        <xcad:LayoutDocument ContentId="FWHM" Title="FWHM">
+                            <d3:ChartPlotter x:Name="FWHM" />
+                        </xcad:LayoutDocument>
+                        <xcad:LayoutDocument ContentId="PeakPosition" Title="Peak Position">
+                            <d3:ChartPlotter x:Name="PeakPosition" />
+                        </xcad:LayoutDocument>
+                        <xcad:LayoutDocument ContentId="PeakValue" Title="Peak Value">
+                            <d3:ChartPlotter x:Name="PeakValue" />
+                        </xcad:LayoutDocument>
+                    </xcad:LayoutDocumentPane>
+
+                    <xcad:LayoutDocumentPane DockWidth="*" DockMinWidth="100">
+                        <xcad:LayoutDocument ContentId="Voltages" Title="Voltages">
+                            <ListBox x:Name="voltagesList" HorizontalContentAlignment="Center" SelectionChanged="SelectedVoltageChanged" SelectionMode="Single"/>
+                        </xcad:LayoutDocument>
+                    </xcad:LayoutDocumentPane>
+
+                </xcad:LayoutDocumentPaneGroup>
+            </xcad:LayoutPanel>
+        </xcad:LayoutRoot>
+    </xcad:DockingManager>
+
+</UserControl>

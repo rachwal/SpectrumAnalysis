@@ -1,0 +1,30 @@
+﻿<Window x:Class="SpectrumAnalysis.Shell.View.ShellView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:regions="http://prismlibrary.com/"
+        Title="Spectrum Analysis"
+        Height="480"
+        Width="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <ContentControl x:Name="MenuRegion" Grid.Row="0" Grid.ColumnSpan="3"
+                        regions:RegionManager.RegionName="MenuRegion" />
+
+        <ContentControl x:Name="MainRegion" Grid.Row="1" Grid.ColumnSpan="3"
+                        regions:RegionManager.RegionName="MainRegion" />
+
+        <ContentControl x:Name="StatusBarRegion" Grid.Row="2" Grid.ColumnSpan="3"
+                        regions:RegionManager.RegionName="StatusBarRegion" />
+    </Grid>
+</Window>
